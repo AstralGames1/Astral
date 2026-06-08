@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Astral Games</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+
+html,body{
+width:100%;
+height:100%;
+background:#000;
+overflow:hidden;
+}
+
+body{
+background:radial-gradient(circle at center,#020408 0%,#000 70%);
+}
+
+body::before{
+content:"";
+position:absolute;
+inset:0;
+background:radial-gradient(circle at center,rgba(40,70,140,0.15),transparent 45%);
+z-index:0;
+}
+
+canvas{
+position:fixed;
+inset:0;
+z-index:1;
+pointer-events:none;
+}
+
+.title{
+position:absolute;
+top:40px;
+left:50%;
+transform:translateX(-50%);
+font-size:clamp(60px,10vw,100px);
+font-weight:800;
+background:linear-gradient(90deg,#10264d,#1c4d95,#4f8df0,#1c4d95,#10264d);
+background-size:220%;
+-webkit-background-clip:text;
+color:transparent;
+animation:flow 8s ease-in-out infinite;
+}
+
+@keyframes flow{
+0%,100%{background-position:0% 50%}
+50%{background-position:100% 50%}
+}
+
+.grid{
+position:absolute;
+top:160px;
+left:50%;
+transform:translateX(-50%);
+width:95%;
+
+display:grid;
+grid-template-columns:repeat(10, 1fr);
+gap:20px;
+z-index:2;
+}
+
+.game{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:8px;
+cursor:pointer;
+transition:0.2s ease;
+}
+
+.icon-box{
+width:100%;
+aspect-ratio:1/1;
+border-radius:20px;
+overflow:hidden;
+background:#121212;
+border:4px solid transparent;
+transition:0.2s ease;
+}
+
+.icon-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.game-name{
+font-size:12px;
+color:white;
+opacity:0.8;
+text-align:center;
+}
+
+.game:hover{
+transform:translateY(-4px);
+}
+
+.game:hover .icon-box{
+border:4px solid #4f8df0;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="snow"></canvas>
+
+<div class="title">Games</div>
+
+<div class="grid">
+
+<div class="game" onclick="window.location.href='games/stickman-hook.html'">
+<div class="icon-box"><img src="icons/stickman hook png.png"></div>
+<div class="game-name">Stickman Hook</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/minecraft-pe.html'">
+<div class="icon-box"><img src="icons/minecraft pe.png"></div>
+<div class="game-name">Minecraft PE</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/repo.html'">
+<div class="icon-box"><img src="icons/repo.png"></div>
+<div class="game-name">Repo</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/gd-lite.html'">
+<div class="icon-box"><img src="icons/gd lite.png"></div>
+<div class="game-name">Geometry Dash Lite</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/buckshot-roulette.html'">
+<div class="icon-box"><img src="icons/buckshot.png"></div>
+<div class="game-name">Buckshot Roulette</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/solar-smash.html'">
+<div class="icon-box"><img src="icons/solar smash.png"></div>
+<div class="game-name">Solar Smash</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/five-nights-at-epstein.html'">
+<div class="icon-box"><img src="icons/fnae.webp"></div>
+<div class="game-name">Five Nights at Epstein</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/cluster-rush.html'">
+<div class="icon-box"><img src="icons/cluster-rush-1.png"></div>
+<div class="game-name">Cluster Rush</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/retrobowl.html'">
+<div class="icon-box"><img src="icons/retro bowl.png"></div>
+<div class="game-name">Retro Bowl</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/slope.html'">
+<div class="icon-box"><img src="icons/slope plus.png"></div>
+<div class="game-name">Slope</div>
+</div>
+
+<!-- ROW 2 -->
+<div class="game" onclick="window.location.href='games/slope2.html'">
+<div class="icon-box"><img src="icons/slope 2.png"></div>
+<div class="game-name">Slope 2</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/caraerna.html'">
+<div class="icon-box"><img src="icons/car arena.png"></div>
+<div class="game-name">Car Arena</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/getting over it.html'">
+<div class="icon-box"><img src="icons/getting over it.png"></div>
+<div class="game-name">Getting Over It</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/doom.html'">
+<div class="icon-box"><img src="icons/Doom.webp"></div>
+<div class="game-name">Doom</div>
+</div>
+
+<div class="game" onclick="window.location.href='games/oneshot.html'">
+<div class="icon-box"><img src="icons/oneshot.jpg"></div>
+<div class="game-name">OneShot</div>
+</div>
+
+<!-- ✅ NEW GAME -->
+<div class="game" onclick="window.location.href='games/roblox.html'">
+<div class="icon-box"><img src="icons/roblox.png"></div>
+<div class="game-name">Roblox</div>
+</div>
+
+</div>
+
+<script>
+const canvas=document.getElementById("snow");
+const ctx=canvas.getContext("2d");
+
+let w,h,particles=[];
+
+function resize(){
+w=canvas.width=window.innerWidth;
+h=canvas.height=window.innerHeight;
+particles=[];
+
+for(let i=0;i<200;i++){
+particles.push({
+x:Math.random()*w,
+y:Math.random()*h,
+r:Math.random()*2+1,
+speedY:Math.random()*0.6+0.2,
+sway:Math.random()*2,
+swaySpeed:Math.random()*0.02,
+offset:Math.random()*Math.PI*2,
+alpha:Math.random()*0.6+0.2
+});
+}
+}
+
+function draw(){
+ctx.clearRect(0,0,w,h);
+
+particles.forEach(p=>{
+p.y+=p.speedY;
+p.x+=Math.sin(p.y*p.swaySpeed+p.offset)*p.sway;
+
+if(p.y>h){
+p.y=-10;
+p.x=Math.random()*w;
+}
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle=`rgba(255,255,255,${p.alpha})`;
+ctx.fill();
+});
+
+requestAnimationFrame(draw);
+}
+
+window.addEventListener("resize",resize);
+resize();
+draw();
+</script>
+
+</body>
+</html>
