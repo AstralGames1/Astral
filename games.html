@@ -2,185 +2,198 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Astral Games</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAIL MARY</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
-html, body {
-    width:100%; height:100%; background:#000; overflow:auto; color:white;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+html,body{
+    width:100%;
+    height:100%;
+    overflow-y:auto;
+    background:#000;
 }
-body {
-    background: radial-gradient(circle at center, #020408 0%, #000 70%);
+body{
+    background:radial-gradient(circle at center,#020408 0%,#000 70%);
+    color:#fff;
+    position:relative;
 }
-body::before {
-    content:""; position:fixed; inset:0;
-    background: radial-gradient(circle at center, rgba(40,70,140,0.15), transparent 45%);
-    z-index:0; pointer-events:none;
+body::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at center,rgba(32,60,120,0.18),transparent 35%),
+        radial-gradient(circle at center,rgba(60,100,190,0.08),transparent 55%);
+    z-index:0;
+    pointer-events:none;
 }
-canvas { position:fixed; inset:0; z-index:1; pointer-events:none; }
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+}
 
-.title {
-    position:absolute; top:40px; left:50%; transform:translateX(-50%);
-    font-size: clamp(60px, 10vw, 100px); font-weight:800; z-index:10;
-    background: linear-gradient(90deg, #10264d, #1c4d95, #4f8df0, #1c4d95, #10264d);
-    background-size: 220%; -webkit-background-clip: text; color: transparent;
-    animation: flow 8s ease-in-out infinite;
+/* HEADER */
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:10;
+    padding:20px;
+    text-align:center;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(8px);
 }
-@keyframes flow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.title{
+    font-size:clamp(42px,9vw,78px);
+    font-weight:800;
+    background:linear-gradient(90deg,#10264d,#1c4d95,#4f8df0,#1c4d95,#10264d);
+    background-size:220%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:flow 8s ease-in-out infinite;
+}
+@keyframes flow{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+}
 
-.grid {
-    position:relative; top:160px; left:50%; transform:translateX(-50%);
-    width:95%; max-width: 2100px;
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap:24px;
+/* GAME GRID */
+main{
+    position:relative;
     z-index:2;
-    padding-bottom: 150px;
+    padding-top:120px;
+    padding-bottom:100px;
+}
+.grid-layout{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:24px;
+    padding:0 5vw;
+    max-width:1800px;
+    margin:0 auto;
+}
+.game-card{
+    background:rgba(20,20,30,0.85);
+    border:1px solid rgba(80,120,255,0.3);
+    border-radius:16px;
+    overflow:hidden;
+    transition:0.3s ease;
+    cursor:pointer;
+}
+.game-card:hover{
+    transform:scale(1.06);
+    box-shadow:0 0 30px rgba(80,140,255,0.4);
+}
+.card-thumb{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+.card-body{
+    padding:14px;
+}
+.card-title{
+    font-size:1.1rem;
+    margin-bottom:6px;
 }
 
-.game {
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    cursor:pointer; transition:0.3s ease;
+/* BOTTOM BAR */
+.bottom-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:30px;
+    background:rgba(10,10,15,0.85);
+    backdrop-filter:blur(10px);
+    z-index:100;
+    border-top:1px solid rgba(80,120,255,0.3);
 }
-.icon-box {
-    width:100%; aspect-ratio:1/1;
-    border-radius:22px; overflow:hidden; background:#0f1624;
-    border:4px solid transparent; transition:0.3s ease;
+.bar-btn{
+    width:56px;
+    height:56px;
+    border:none;
+    border-radius:16px;
+    background:rgba(255,255,255,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:0.2s;
 }
-.icon-box img {
-    width:100%; height:100%; object-fit:cover;
+.bar-btn:hover{
+    background:rgba(80,140,255,0.3);
+    transform:scale(1.1);
 }
-.game-name {
-    font-size:14px; color:#ddd; text-align:center; line-height:1.3;
-}
-.game:hover { transform:translateY(-10px) scale(1.03); }
-.game:hover .icon-box { 
-    border-color: #4f8df0; 
-    box-shadow: 0 0 35px rgba(79,141,240,0.6); 
-}
-.header {
-    position:fixed; top:15px; left:50%; transform:translateX(-50%);
-    z-index:20; color:rgba(255,255,255,0.75); font-size:15px; pointer-events:none;
+.bar-btn img{
+    width:32px;
+    height:32px;
+    filter:brightness(0.9);
 }
 
-/* Zone Viewer (same page loading) */
-#zoneViewer {
-    display: none; position: fixed; inset: 0; z-index: 100; background: #000;
-    flex-direction: column;
+/* SEARCH */
+.search-container{
+    text-align:center;
+    margin:30px 0;
 }
-.zone-header {
-    background: linear-gradient(135deg, #1a2338, #0f1624); padding: 15px 20px;
-    display: flex; justify-content: space-between; align-items: center; z-index: 101;
-}
-.zone-title { font-size: 22px; font-weight: bold; }
-.zone-controls button {
-    margin-left: 10px; padding: 8px 16px; background: #4f8df0; color: white;
-    border: none; border-radius: 8px; cursor: pointer;
-}
-#zoneFrame {
-    flex: 1; border: none; background: #000;
+.search{
+    width:min(620px,90vw);
+    padding:16px 24px;
+    border-radius:999px;
+    border:none;
+    outline:none;
+    background:#121212;
+    color:white;
+    font-size:17px;
+    box-shadow:0 0 0 2px rgba(80,140,255,0.4),
+               0 0 25px rgba(80,140,255,0.25);
 }
 </style>
 </head>
 <body>
+
 <canvas id="snow"></canvas>
-<div class="header">Astral Games • Full gn-math Collection</div>
-<div class="title">Games</div>
-<div class="grid" id="gameGrid"></div>
+
+<header>
+    <div class="title">GAMES</div>
+</header>
+
+<main>
+    <div class="search-container">
+        <input type="text" id="searchBar" class="search" placeholder="Search games...">
+    </div>
+
+    <div class="grid-layout" id="allGamesGrid"></div>
+</main>
+
+<!-- Bottom Bar -->
+<div class="bottom-bar">
+    <button class="bar-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="Home">
+    </button>
+    <button class="bar-btn" onclick="window.location.reload()">
+        <img src="https://cdn-icons-png.flaticon.com/512/709/709606.png" alt="Refresh">
+    </button>
+</div>
 
 <!-- Zone Viewer -->
-<div id="zoneViewer">
-    <div class="zone-header">
-        <div class="zone-title" id="zoneName">Loading...</div>
-        <div class="zone-controls">
-            <button onclick="fullscreenZone()">Fullscreen</button>
-            <button onclick="closeZone()">Close</button>
-        </div>
+<div id="zoneViewer" style="display:none;position:fixed;inset:0;background:#000;z-index:200;flex-direction:column;">
+    <div style="padding:15px 20px;background:#111;display:flex;justify-content:space-between;align-items:center;">
+        <h2 id="zoneName" style="color:#4f8df0;margin:0;">Loading...</h2>
+        <button onclick="closeZone()" style="padding:8px 16px;background:#c00;color:white;border:none;border-radius:8px;cursor:pointer;">Close</button>
     </div>
-    <iframe id="zoneFrame"></iframe>
+    <iframe id="zoneFrame" style="flex:1;width:100%;border:none;"></iframe>
 </div>
 
 <script>
-// FULL GAME LIST FROM GN-MATH
-const games = [
-    {id:-1, name:"Suggest Games", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/dc.png"},
-    {id:596, name:"Comments", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/596-uu.png"},
-    {id:1, name:"1v1.LOL", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/1.png"},
-    {id:2, name:"Minecraft", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/2.png"},
-    {id:6, name:"Block Blast", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/6.png"},
-    {id:11, name:"Stickman Hook", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/11.png"},
-    {id:13, name:"Attack Hole", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/13.png"},
-    {id:14, name:"Bridge Race", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/14.png"},
-    {id:33, name:"Retro Bowl", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/33.png"},
-    {id:58, name:"1v1.LoL", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/58.png"},
-    {id:59, name:"A Dance of Fire and Ice", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/59.png"},
-    {id:63, name:"Angry Birds", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/63.png"},
-    {id:66, name:"Basket Random", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/66.png"},
-    {id:67, name:"Big Tower Tiny Square", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/67.png"},
-    {id:70, name:"BitLife", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/70.png"},
-    {id:114, name:"2048", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/114.png"},
-    {id:115, name:"8 Ball Pool", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/115.png"},
-    {id:166, name:"Bad Parenting", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/166.png"},
-    {id:182, name:"Minecraft 1.12.2", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/182.png"},
-    {id:194, name:"People Playground", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/194-m.png"},
-    {id:205, name:"Buckshot Roulette", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/205.png"},
-    {id:215, name:"Bendy and the Ink Machine", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/215.png"},
-    {id:258, name:"A Bite at Freddy's", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/258.png"},
-    {id:354, name:"Adventure Capitalist", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/354.png"},
-    {id:430, name:"10 Minutes Till Dawn", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/430.png"},
-    {id:435, name:"A Small World Cup", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/435.png"},
-    {id:465, name:"Cuphead", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/465.png"},
-    {id:468, name:"Hollow Knight", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/468.png"},
-    {id:542, name:"Karlson", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/542.png"},
-    {id:591, name:"Slime Rancher", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/591.png"},
-    {id:623, name:"Celeste", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/623.png"},
-    {id:666, name:"Stick War: Legacy", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/666.png"},
-    {id:669, name:"Terraria", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/669.png"},
-    {id:710, name:"Five Nights at Epstein's", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/710.png"},
-    {id:771, name:"Hollow Knight: Silksong", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/771.png"},
-    {id:826, name:"Just Shapes & Beats", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/826.png"},
-    {id:843, name:"La Madriguera (Lazy Bear Game)", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/843.png"},
-    {id:844, name:"Hammer 2: Reloaded", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/844.png"},
-    {id:845, name:"Swords and Sandals 2", cover:"https://cdn.jsdelivr.net/gh/freebuisness/covers@main/845.png"}
-    // Hundreds more games from your original file are included here
-];
-
-const grid = document.getElementById('gameGrid');
-
-games.forEach(game => {
-    const div = document.createElement('div');
-    div.className = 'game';
-    div.innerHTML = `
-        <div class="icon-box">
-            <img src="${game.cover}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/200/111827/ffffff?text=${encodeURIComponent(game.name.substring(0,12))}'">
-        </div>
-        <div class="game-name">${game.name}</div>
-    `;
-    div.onclick = () => openGame(game.id, game.name);
-    grid.appendChild(div);
-});
-
-// Open game in same page (original behavior)
-function openGame(id, name) {
-    document.getElementById('zoneName').textContent = name;
-    document.getElementById('zoneViewer').style.display = 'flex';
-    
-    const frame = document.getElementById('zoneFrame');
-    frame.src = `https://cdn.jsdelivr.net/gh/freebuisness/html@main/${id}.html`;
-}
-
-function closeZone() {
-    const viewer = document.getElementById('zoneViewer');
-    const frame = document.getElementById('zoneFrame');
-    viewer.style.display = 'none';
-    frame.src = ''; // Clear iframe
-}
-
-function fullscreenZone() {
-    const frame = document.getElementById('zoneFrame');
-    if (frame.requestFullscreen) frame.requestFullscreen();
-}
-
-// Snow Effect
+// Snow / Falling Particles
 const canvas = document.getElementById("snow");
 const ctx = canvas.getContext("2d");
 let w, h, particles = [];
@@ -189,15 +202,14 @@ function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
     particles = [];
-    for(let i = 0; i < 300; i++) {
+    for(let i = 0; i < 280; i++) {
         particles.push({
             x: Math.random() * w,
             y: Math.random() * h,
-            r: Math.random() * 3 + 0.5,
-            speedY: Math.random() * 1.2 + 0.3,
-            sway: Math.random() * 2.5,
-            swaySpeed: Math.random() * 0.025 + 0.01,
-            alpha: Math.random() * 0.8 + 0.3
+            r: Math.random() * 2.5 + 0.8,
+            speedY: Math.random() * 1.2 + 0.4,
+            sway: Math.random() * 1.5,
+            alpha: Math.random() * 0.7 + 0.3
         });
     }
 }
@@ -206,11 +218,12 @@ function draw() {
     ctx.clearRect(0, 0, w, h);
     particles.forEach(p => {
         p.y += p.speedY;
-        p.x += Math.sin(p.y * p.swaySpeed) * p.sway;
-        if (p.y > h) p.y = -20;
+        p.x += Math.sin(p.y * 0.008) * p.sway;
+        if (p.y > h) p.y = -10;
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 240, 255, ${p.alpha})`;
+        ctx.fillStyle = `rgba(180,220,255,${p.alpha})`;
         ctx.fill();
     });
     requestAnimationFrame(draw);
@@ -219,6 +232,77 @@ function draw() {
 window.addEventListener("resize", resize);
 resize();
 draw();
+
+// Game Data & Logic
+const CONFIG = {
+    zones: "https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json",
+    covers: "https://cdn.jsdelivr.net/gh/freebuisness/covers@main",
+    html: "https://cdn.jsdelivr.net/gh/freebuisness/html@main"
+};
+
+let state = { games: [] };
+
+async function init() {
+    try {
+        const res = await fetch(CONFIG.zones + "?t=" + Date.now());
+        state.games = await res.json();
+        renderGames();
+    } catch(e) {
+        console.error(e);
+        document.getElementById('allGamesGrid').innerHTML = `<p style="color:#666;text-align:center;grid-column:1/-1;padding:50px;">Failed to load games</p>`;
+    }
+}
+
+function resolveUrl(u) {
+    return u.replace("{COVER_URL}", CONFIG.covers).replace("{HTML_URL}", CONFIG.html);
+}
+
+function createCard(g) {
+    return `
+    <div class="game-card" onclick="openGame(${g.id})">
+        <img src="${resolveUrl(g.cover)}" class="card-thumb" loading="lazy">
+        <div class="card-body">
+            <div class="card-title">${g.name}</div>
+        </div>
+    </div>`;
+}
+
+function renderGames() {
+    document.getElementById('allGamesGrid').innerHTML = state.games.map(g => createCard(g)).join('');
+}
+
+async function openGame(id) {
+    const g = state.games.find(x => x.id === id);
+    if (!g) return;
+
+    document.getElementById('zoneName').textContent = g.name;
+    document.getElementById('zoneViewer').style.display = 'flex';
+
+    try {
+        const url = resolveUrl(g.url);
+        const resp = await fetch(url + "?t=" + Date.now());
+        const html = await resp.text();
+        const frame = document.getElementById('zoneFrame');
+        frame.contentDocument.open();
+        frame.contentDocument.write(html);
+        frame.contentDocument.close();
+    } catch(e) {
+        alert("Failed to load game");
+    }
+}
+
+function closeZone() {
+    document.getElementById('zoneViewer').style.display = 'none';
+}
+
+// Search
+document.getElementById('searchBar').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = state.games.filter(g => g.name.toLowerCase().includes(term));
+    document.getElementById('allGamesGrid').innerHTML = filtered.map(g => createCard(g)).join('');
+});
+
+init();
 </script>
 </body>
 </html>
